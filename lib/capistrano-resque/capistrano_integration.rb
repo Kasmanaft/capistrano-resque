@@ -8,6 +8,7 @@ module CapistranoResque
 
         _cset(:workers, {"*" => 1})
         _cset(:resque_kill_signal, "QUIT")
+        _cset(:scheduler_kill_signal, "QUIT")
         _cset(:interval, "5")
 
         def workers_roles
@@ -61,7 +62,7 @@ module CapistranoResque
 
         def stop_scheduler(pid)
           "if [ -e #{pid} ]; then \
-            #{try_sudo} kill $(cat #{pid}) ; rm #{pid} \
+            #{try_sudo} kill -s #{scheduler_kill_signal} $(cat #{pid}) ; rm #{pid} \
            ;fi"
         end
 
